@@ -204,22 +204,3 @@ chrome.alarms.getAll().then(alarms => console.log('All alarms:', alarms));
   updatedAt: number        // Unix timestamp (ms)
 }
 ```
-
-## Contributing
-
-This project prioritises simplicity and zero dependencies. When contributing:
-
-- ✅ Keep modules small and focused
-- ✅ Use pure vanilla JavaScript (no frameworks)
-- ✅ Follow existing code style and patterns
-- ✅ Add comprehensive error handling
-- ✅ Test across Chrome restarts
-- ❌ No TypeScript, no build tools, no npm packages
-
-## Licence
-
-MIT Licence - see LICENSE file for details
-
----
-
-**Built with ❤️ using vanilla JavaScript**
