@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NudgeNudge</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1 class="app-title">NudgeNudge</h1>
+    </header>
+
+    <main class="main">
+      <!-- Reminder Form -->
+      <form id="reminderForm" class="reminder-form">
+        <div class="form-group">
+          <label for="titleInput" class="form-label">Title</label>
+          <input 
+            type="text" 
+            id="titleInput" 
+            class="form-input" 
+            placeholder="Enter reminder title"
+            required
+            maxlength="100"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="descriptionInput" class="form-label">Description (optional)</label>
+          <textarea 
+            id="descriptionInput" 
+            class="form-textarea" 
+            placeholder="Add details"
+            rows="2"
+            maxlength="300"
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="repeatTypeSelect" class="form-label">Repeat</label>
+          <select id="repeatTypeSelect" class="form-select">
+            <option value="once">Once</option>
+            <option value="hourly">Hourly</option>
+            <option value="daily">Daily</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+            <option value="custom">Custom</option>
+          </select>
+        </div>
+
+        <!-- Once: date/time picker -->
+        <div id="onceFields" class="dynamic-fields">
+          <div class="form-group">
+            <label for="onceDatetime" class="form-label">Date & Time</label>
+            <input 
+              type="datetime-local" 
+              id="onceDatetime" 
+              class="form-input"
+            />
+          </div>
+        </div>
+
+        <!-- Hourly: interval -->
+        <div id="hourlyFields" class="dynamic-fields hidden">
+          <div class="form-group">
+            <label for="hourlyInterval" class="form-label">Every</label>
+            <div class="input-with-suffix">
+              <input 
+                type="number" 
+                id="hourlyInterval" 
+                class="form-input-inline" 
+                min="1" 
+                max="12"
+                value="1"
+              />
+              <span class="input-suffix">hour(s)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Daily: time picker -->
+        <div id="dailyFields" class="dynamic-fields hidden">
+          <div class="form-group">
+            <label for="dailyTime" class="form-label">Time</label>
+            <input 
+              type="time" 
+              id="dailyTime" 
+              class="form-input"
+            />
+          </div>
+        </div>
+
+        <!-- Weekly: weekdays + time -->
+        <div id="weeklyFields" class="dynamic-fields hidden">
+          <div class="form-group">
+            <label class="form-label">Days of Week</label>
+            <div class="weekday-selector">
+              <label class="weekday-btn">
+                <input type="checkbox" name="weekday" value="1" />
+                <span>Mon</span>
+              </label>
+              <label class="weekday-btn">
+                <input type="checkbox" name="weekday" value="2" />
+                <span>Tue</span>
+              </label>
+              <label class="weekday-btn">
+                <input type="checkbox" name="weekday" value="3" />
+                <span>Wed</span>
+              </label>
+              <label class="weekday-btn">
+                <input type="checkbox" name="weekday" value="4" />
+                <span>Thu</span>
+              </label>
+              <label class="weekday-btn">
+                <input type="checkbox" name="weekday" value="5" />
+                <span>Fri</span>
+              </label>
+              <label class="weekday-btn">
+                <input type="checkbox" name="weekday" value="6" />
+                <span>Sat</span>
+              </label>
+              <label class="weekday-btn">
+                <input type="checkbox" name="weekday" value="0" />
+                <span>Sun</span>
+              </label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="weeklyTime" class="form-label">Time</label>
+            <input 
+              type="time" 
+              id="weeklyTime" 
+              class="form-input"
+            />
+          </div>
+        </div>
+
+        <!-- Monthly: day + time -->
+        <div id="monthlyFields" class="dynamic-fields hidden">
+          <div class="form-group">
+            <label for="monthlyDay" class="form-label">Day of Month</label>
+            <input 
+              type="number" 
+              id="monthlyDay" 
+              class="form-input" 
+              min="1" 
+              max="31"
+              value="1"
+            />
+          </div>
+          <div class="form-group">
+            <label for="monthlyTime" class="form-label">Time</label>
+            <input 
+              type="time" 
+              id="monthlyTime" 
+              class="form-input"
+            />
+          </div>
+        </div>
+
+        <!-- Custom: interval + unit -->
+        <div id="customFields" class="dynamic-fields hidden">
+          <div class="form-group">
+            <label for="customInterval" class="form-label">Every</label>
+            <div class="custom-interval-group">
+              <input 
+                type="number" 
+                id="customInterval" 
+                class="form-input-inline" 
+                min="1" 
+                max="999"
+                value="1"
+              />
+              <select id="customUnit" class="form-select-inline">
+                <option value="minutes">minute(s)</option>
+                <option value="hours">hour(s)</option>
+                <option value="days">day(s)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-primary" id="saveBtn">
+            <svg class="btn-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            Save Reminder
+          </button>
+          <button type="button" class="btn-secondary hidden" id="cancelBtn">
+            Cancel
+          </button>
+        </div>
+      </form>
+
+      <!-- Divider -->
+      <div class="section-divider"></div>
+
+      <!-- Empty state: shown when no reminders exist -->
+      <div id="emptyState" class="empty-state">
+        <svg class="empty-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        <p class="empty-text">No reminders yet</p>
+        <p class="empty-subtext">Fill out the form above to create one</p>
+      </div>
+
+      <!-- Reminders list -->
+      <div id="remindersList" class="reminders-list hidden">
+        <!-- Reminders will be inserted here by popup.js -->
+      </div>
+    </main>
+  </div>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>
